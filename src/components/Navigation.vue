@@ -16,7 +16,7 @@
       <el-menu-item index="5">论坛</el-menu-item>
       <el-menu-item index="6">代码</el-menu-item>
       <el-menu-item index="10" style="float: right">账户管理</el-menu-item>
-      <el-menu-item index="9" style="float: right">个人中心</el-menu-item>
+      <el-menu-item index="9" style="float: right" @click="toLogin">个人中心</el-menu-item>
       <el-menu-item index="8" style="float: right">
         <el-popover
             placement="bottom"
@@ -55,6 +55,9 @@ name: "Navigation",
   methods: {
     handleSelect(key, keyPath) {
       console.log(key, keyPath);
+    },
+    toLogin(){
+      this.$router.push('/Login')
     }
   }
 }
