@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 Vue.use(VueRouter)
 import home from "../view/home";
 import Login from "../view/Login";
+import Register from "../view/Register";
 let router =new VueRouter({
     routes:[
         {
@@ -14,8 +15,12 @@ let router =new VueRouter({
             component:home
         },
         {
-            path:'/Login',
+            path:'/login',
             component:Login
+        },
+        {
+            path:'/register',
+            component:Register
         },
 
     ]

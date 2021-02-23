@@ -1,26 +1,30 @@
 <template>
-  <div class="loginPage">
-    <el-card shadow="hover" class="loginCard">
-      <el-form :model="loginForm" status-icon ref="loginForm" :rules="rules" class="demo-ruleForm" >
+  <div class="registerPage">
+    <el-card shadow="hover" class="registerCard">
+      <el-form :model="registerForm" status-icon ref="registerForm" :rules="rules" class="demo-ruleForm" >
         <el-form-item>
-          <h2>登录</h2>
+          <h2>注册</h2>
         </el-form-item>
         <el-form-item prop="userName">
-          <el-input type="text" v-model="loginForm.userName" placeholder="请输入账号" style="width: 200px">
+          <el-input type="text" v-model="registerForm.userName" placeholder="请输入账号" style="width: 200px">
             <i class="el-icon-user" slot="prefix"></i>
           </el-input>
         </el-form-item>
         <el-form-item prop="password">
-          <el-input type="password" v-model="loginForm.password" placeholder="请输入密码" style="width: 200px">
+          <el-input type="password" v-model="registerForm.password" placeholder="请输入密码" style="width: 200px">
             <i class="el-icon-lock" slot="prefix"></i>
           </el-input>
         </el-form-item>
-
-        <el-form-item>
-          <el-button type="primary" @click="submitForm('loginForm')" style="width: 100px;color: white">登录</el-button>
+        <el-form-item prop="email">
+          <el-input type="text" v-model="registerForm.email" placeholder="请输入邮箱" style="width: 200px">
+            <i class="el-icon-message" slot="prefix"></i>
+          </el-input>
         </el-form-item>
         <el-form-item>
-          <el-link type="primary" href="./#/register">没有账号？去注册！</el-link>
+          <el-button type="primary" @click="submitForm('registerForm')" style="width: 100px;color: white">登录</el-button>
+        </el-form-item>
+        <el-form-item>
+          <el-link type="primary" href="./#/login">已有账号？去登录！</el-link>
         </el-form-item>
       </el-form>
     </el-card>
@@ -28,12 +32,13 @@
 </template>
 <script>
 export default {
-  name: "Login",
+  name: "register",
   data() {
     return {
-      loginForm: {
+      registerForm: {
         userName: '',
         password: '',
+        email:'',
       },
       rules:{
         userName:[
@@ -47,6 +52,10 @@ export default {
           {max:20,message: "密码长度最长20位！",trigger:'blur'},
           {min:6,message: "密码长度最少6位！",trigger:'blur'}
         ],
+        email:[
+          {required:true,message: "邮箱不能为空！",trigger:'blur'} ,
+          {pattern:/^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/,message:"邮箱格式不正确！",trigger:'blur'},
+        ],
       },
     };
   },
@@ -55,16 +64,16 @@ export default {
       this.$refs[formName].validate((valid) =>{
         if(valid)
         {this.$axios({
-            url:'',
-            method:"get",
-            params:{}
-          }).then(res => {
-            console.log(res)
-          })
-      } else {
-        console.log('error submit!!');
-        return false;
-      }
+          url:'http://www.chengxiaoji.cn/bgm_api/index.php',
+          method:"post",
+          params:{}
+        }).then(res => {
+          console.log(res)
+        })
+        } else {
+          console.log('error submit!!');
+          return false;
+        }
       });
     },
   }
@@ -72,7 +81,7 @@ export default {
 </script>
 
 <style scoped>
-.loginPage {
+.registerPage {
   width: 100vw;
   height: 100vh;
   background-color: pink;
@@ -81,7 +90,7 @@ export default {
   align-items: center;
 }
 
-.loginCard {
+.registerCard {
   display: flex;
   justify-content: center;
   align-items: center;
