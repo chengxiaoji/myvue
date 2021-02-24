@@ -53,11 +53,10 @@ export default {
   methods: {
     submitForm(formName) {
       this.$refs[formName].validate((valid) =>{
-        if(valid)
-        {this.$axios({
-            url:'',
-            method:"get",
-            params:{}
+        if(valid){
+        this.$axios.post('Forum_api/test.php',{
+            name:this.loginForm.userName,
+            pass:this.loginForm.password
           }).then(res => {
             console.log(res)
           })
