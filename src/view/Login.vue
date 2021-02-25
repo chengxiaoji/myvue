@@ -54,11 +54,18 @@ export default {
     submitForm(formName) {
       this.$refs[formName].validate((valid) =>{
         if(valid){
-        this.$axios.post('Forum_api/test.php',{
+        this.$axios.post('Forum_api/Login.php',{
             name:this.loginForm.userName,
             pass:this.loginForm.password
           }).then(res => {
-            console.log(res)
+          if (res.data['code']===200) {
+            this.$router.push('/');
+          }
+          else{
+            this.$message.error(res.data['msg']);
+
+          }
+
           })
       } else {
         console.log('error submit!!');

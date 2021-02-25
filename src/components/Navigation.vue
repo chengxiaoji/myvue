@@ -14,21 +14,35 @@
       <el-menu-item index="3">程序员学院</el-menu-item>
       <el-menu-item index="4">下载</el-menu-item>
       <el-menu-item index="5">论坛</el-menu-item>
-      <el-menu-item index="6">代码</el-menu-item>
-      <el-menu-item index="10" style="float: right">账户管理</el-menu-item>
-      <el-menu-item index="9" style="float: right" @click="toLogin">个人中心</el-menu-item>
-      <el-menu-item index="8" style="float: right">
+      <el-menu-item index="6">{{username}}</el-menu-item>
+      <el-menu-item index="10" style="float: right" v-if="isLogin">账户管理</el-menu-item>
+      <el-menu-item index="9" style="float: right"  v-if="isLogin">个人中心</el-menu-item>
+      <el-menu-item index="9" style="float: right" @click="toLogin" v-if="!isLogin">注册</el-menu-item>
+      <el-menu-item index="9" style="float: right" @click="toLogin" v-if="!isLogin">登录</el-menu-item>
+      <el-menu-item index="8" style="float: right" v-if="isLogin">
         <el-popover
             placement="bottom"
             width="400"
             trigger="hover">
-          <el-table>
-            <el-table-column width="150" property="date" label="日期"></el-table-column>
-            <el-table-column width="100" property="name" label="姓名"></el-table-column>
-            <el-table-column width="300" property="address" label="地址"></el-table-column>
-          </el-table>
+          <el-menu
+              default-active="1"
+              class="el-menu-vertical-demo"
+              @open="handleOpen"
+              @close="handleClose">
+            <el-menu-item index="1">
+              <i class="el-icon-menu"></i>
+              <span slot="title">导航二</span>
+            </el-menu-item>
+            <el-menu-item index="2" >
+              <i class="el-icon-document"></i>
+              <span slot="title">导航三</span>
+            </el-menu-item>
+            <el-menu-item index="3" @click="log_out">
+              <i class="el-icon-setting"></i>
+              <span slot="title">退出登录</span>
+            </el-menu-item>
+          </el-menu>
           <el-avatar :size="40" slot="reference"></el-avatar>
-
         </el-popover>
       </el-menu-item>
       <el-menu-item index="7" style="float: right">
@@ -49,7 +63,8 @@ name: "Navigation",
   data() {
     return {
       activeIndex: '1',
-
+      username:'',
+      isLogin:false,
     };
   },
   methods: {
@@ -58,7 +73,32 @@ name: "Navigation",
     },
     toLogin(){
       this.$router.push('/Login')
+    },
+    log_out(){
+      this.$axios.post('Forum_api/log_out.php')
+      .then(res =>{
+        console.log(res)
+         location.reload()
+      }
+
+      )
+    },
+    getUserInfo(){
+      this.$axios.post('Forum_api/getUserInfo.php')
+          .then(res => {
+        this.username=res.data['msg'];
+        this.isLogin=res.data['isLogin'];
+      })
+    },
+    handleOpen(key, keyPath) {
+      console.log(key, keyPath);
+    },
+    handleClose(key, keyPath) {
+      console.log(key, keyPath);
     }
+  },
+  mounted() {
+  this.getUserInfo();
   }
 }
 </script>
