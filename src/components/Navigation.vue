@@ -17,8 +17,8 @@
       <el-menu-item index="6">{{username}}</el-menu-item>
       <el-menu-item index="10" style="float: right" v-if="isLogin">账户管理</el-menu-item>
       <el-menu-item index="9" style="float: right"  v-if="isLogin">个人中心</el-menu-item>
-      <el-menu-item index="11" style="float: right" @click="toLogin" v-if="!isLogin">注册</el-menu-item>
-      <el-menu-item index="12" style="float: right" @click="toLogin" v-if="!isLogin">登录</el-menu-item>
+      <el-menu-item index="11" style="float: right" @click="toRegister" v-if="!isLogin">注册</el-menu-item>
+      <el-menu-item index="12npm" style="float: right" @click="toLogin" v-if="!isLogin">登录</el-menu-item>
       <el-menu-item index="8" style="float: right" v-if="isLogin">
         <el-popover
             placement="bottom"
@@ -71,6 +71,9 @@ name: "Navigation",
     handleSelect(key, keyPath) {
       console.log(key, keyPath);
     },
+    toRegister(){
+      this.$router.push('/register')
+    },
     toLogin(){
       this.$router.push('/Login')
     },
@@ -95,7 +98,8 @@ name: "Navigation",
     },
     handleClose(key, keyPath) {
       console.log(key, keyPath);
-    }
+    },
+
   },
   mounted() {
   this.getUserInfo();

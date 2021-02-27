@@ -21,7 +21,7 @@
           </el-input>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="submitForm('registerForm')" style="width: 100px;color: white">登录</el-button>
+          <el-button type="primary" @click="submitForm('registerForm')" style="width: 100px;color: white">注册</el-button>
         </el-form-item>
         <el-form-item>
           <el-link type="primary" href="./#/login">已有账号？去登录！</el-link>
@@ -63,12 +63,19 @@ export default {
     submitForm(formName) {
       this.$refs[formName].validate((valid) =>{
         if(valid)
-        {this.$axios({
-          url:'http://www.chengxiaoji.cn/bgm_api/index.php',
-          method:"post",
-          params:{}
+        {this.$axios.post('Forum_api/register.php',{
+          name:this.registerForm.userName,
+          pass:this.registerForm.password,
+          email:this.registerForm.email,
         }).then(res => {
-          console.log(res)
+          if (res.data['code']===200) {
+            this.$router.push('/');
+          }
+          else{
+            this.$message.error(res.data['msg']);
+
+          }
+
         })
         } else {
           console.log('error submit!!');
