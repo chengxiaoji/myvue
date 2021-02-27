@@ -73,7 +73,6 @@ export default {
           }
           else{
             this.$message.error(res.data['msg']);
-
           }
 
         })
@@ -96,7 +95,6 @@ export default {
   justify-content: center;
   align-items: center;
 }
-
 .registerCard {
   display: flex;
   justify-content: center;

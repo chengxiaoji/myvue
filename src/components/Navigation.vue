@@ -83,7 +83,6 @@ name: "Navigation",
         console.log(res)
          location.reload()
       }
-
       )
     },
     getUserInfo(){
@@ -99,7 +98,6 @@ name: "Navigation",
     handleClose(key, keyPath) {
       console.log(key, keyPath);
     },
-
   },
   mounted() {
   this.getUserInfo();
