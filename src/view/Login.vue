@@ -10,12 +10,14 @@
             <i class="el-icon-user" slot="prefix"></i>
           </el-input>
         </el-form-item>
-        <el-form-item prop="password">
+        <el-form-item prop="password" style="margin-bottom: 8px">
           <el-input type="password" v-model="loginForm.password" placeholder="请输入密码" style="width: 200px">
             <i class="el-icon-lock" slot="prefix"></i>
           </el-input>
         </el-form-item>
-
+        <el-form-item prop="cookies" class="cookiesInput">
+          <el-checkbox label="自动登录" name="type" v-model="loginForm.isSetCookies"></el-checkbox>
+        </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="submitForm('loginForm')" style="width: 100px;color: white">登录</el-button>
         </el-form-item>
@@ -34,6 +36,7 @@ export default {
       loginForm: {
         userName: '',
         password: '',
+        isSetCookies:false,
       },
       rules:{
         userName:[
@@ -56,7 +59,8 @@ export default {
         if(valid){
         this.$axios.post('Forum_api/Login.php',{
             name:this.loginForm.userName,
-            pass:this.loginForm.password
+            pass:this.loginForm.password,
+            isSetCookies:this.loginForm.isSetCookies
           }).then(res => {
           if (res.data['code']===200) {
             this.$router.push('/');
@@ -101,4 +105,9 @@ export default {
   align-items: center;
   flex-direction: column;
 }
+.cookiesInput {
+  position: relative;
+  height: 20px;
+}
+
 </style>
