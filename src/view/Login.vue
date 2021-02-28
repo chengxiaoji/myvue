@@ -36,7 +36,7 @@ export default {
       loginForm: {
         userName: '',
         password: '',
-        isSetCookies:false,
+        isSetCookies:false
       },
       rules:{
         userName:[
