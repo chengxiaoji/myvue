@@ -86,11 +86,15 @@ name: "Navigation",
       )
     },
     getUserInfo(){
-      this.$axios.post('Forum_api/getUserInfo.php')
-          .then(res => {
-        this.username=res.data['msg'];
-        this.isLogin=res.data['isLogin'];
-      })
+      this.$axios.post('Forum_api/test.php')
+          .then(()=> {
+            this.$axios.post('Forum_api/getUserInfo.php')
+                .then(res => {
+                  this.username=res.data['msg'];
+                  this.isLogin=res.data['isLogin'];
+                })
+          })
+
     },
     handleOpen(key, keyPath) {
       console.log(key, keyPath);

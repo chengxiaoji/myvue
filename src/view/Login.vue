@@ -55,11 +55,12 @@ export default {
   },
   methods: {
     submitForm(formName) {
+      console.log(this.$md5(this.loginForm.password));
       this.$refs[formName].validate((valid) =>{
         if(valid){
-        this.$axios.post('Forum_api/Login.php',{
+        this.$axios.post('Forum_api/test.php',{
             name:this.loginForm.userName,
-            pass:this.loginForm.password,
+            pass:this.$md5(this.loginForm.password),
             isSetCookies:this.loginForm.isSetCookies
           }).then(res => {
           if (res.data['code']===200) {
@@ -67,6 +68,7 @@ export default {
           }
           else{
             this.$message.error(res.data['msg']);
+
           }
           })
       } else {
