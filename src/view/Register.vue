@@ -61,21 +61,21 @@ export default {
   },
   methods: {
     submitForm(formName) {
-      this.$refs[formName].validate((valid) =>{
-        if(valid)
-        {this.$axios.post('Forum_api/register.php',{
-          name:this.registerForm.userName,
-          pass:this.registerForm.password,
-          email:this.registerForm.email,
-        }).then(res => {
-          if (res.data['code']===200) {
-            this.$router.push('/');
-          }
-          else{
-            this.$message.error(res.data['msg']);
-          }
-
-        })
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          this.$axios.post('Forum_api/register.php', {
+            name: this.registerForm.userName,
+            pass: this.$md5(this.registerForm.password),
+            email: this.registerForm.email
+          }).then(res => {
+            if(res.data['code']===200){
+              this.$message.success(res.data['msg']);
+              this.$refs[formName].resetFields();
+            }
+            else {
+              this.$message.error(res.data['msg']);
+            }
+          })
         } else {
           console.log('error submit!!');
           return false;

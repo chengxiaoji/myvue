@@ -86,7 +86,7 @@ name: "Navigation",
       )
     },
     getUserInfo(){
-      this.$axios.post('Forum_api/test.php')
+      this.$axios.post('Forum_api/Login.php')
           .then(()=> {
             this.$axios.post('Forum_api/getUserInfo.php')
                 .then(res => {

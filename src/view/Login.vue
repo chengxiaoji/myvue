@@ -55,10 +55,9 @@ export default {
   },
   methods: {
     submitForm(formName) {
-      console.log(this.$md5(this.loginForm.password));
       this.$refs[formName].validate((valid) =>{
         if(valid){
-        this.$axios.post('Forum_api/test.php',{
+        this.$axios.post('Forum_api/Login.php',{
             name:this.loginForm.userName,
             pass:this.$md5(this.loginForm.password),
             isSetCookies:this.loginForm.isSetCookies
@@ -70,7 +69,7 @@ export default {
             this.$message.error(res.data['msg']);
 
           }
-          })
+          });
       } else {
         console.log('error submit!!');
         return false;
