@@ -19,7 +19,7 @@
       <el-menu-item index="9" style="float: right"  v-if="isLogin">个人中心</el-menu-item>
       <el-menu-item index="11" style="float: right" @click="toRegister" v-if="!isLogin">注册</el-menu-item>
       <el-menu-item index="12npm" style="float: right" @click="toLogin" v-if="!isLogin">登录</el-menu-item>
-      <el-menu-item index="8" style="float: right" v-if="isLogin">
+      <el-menu-item index="8" style="float: right" v-if="isLogin" @click="toUserInfo">
         <el-popover
             placement="bottom"
             width="400"
@@ -58,6 +58,7 @@
 </template>
 
 <script>
+import api from "@/request/api";
 export default {
 name: "Navigation",
   data() {
@@ -65,6 +66,7 @@ name: "Navigation",
       activeIndex: '1',
       username:'',
       isLogin:false,
+      userID:0,
     };
   },
   methods: {
@@ -78,29 +80,35 @@ name: "Navigation",
       this.$router.push('/Login')
     },
     log_out(){
-      this.$axios.post('Forum_api/log_out.php')
+     api.logOut({
+
+     })
       .then(res =>{
         console.log(res)
-         location.reload()
+        this.$router.push('/');
+        location.reload();
       }
       )
     },
-    getUserInfo(){
-      this.$axios.post('Forum_api/Login.php')
-          .then(()=> {
-            this.$axios.post('Forum_api/getUserInfo.php')
-                .then(res => {
-                  this.username=res.data['msg'];
-                  this.isLogin=res.data['isLogin'];
-                })
-          })
-
+    getUserInfo() {
+      api.login({
+      }).then(() => {
+        api.getUserLoginStatus()
+            .then(res => {
+              this.username = res.data['msg']
+              this.isLogin=res.data['is_login']
+              this.userID=res.data['id']
+            })
+      })
     },
     handleOpen(key, keyPath) {
       console.log(key, keyPath);
     },
     handleClose(key, keyPath) {
       console.log(key, keyPath);
+    },
+    toUserInfo(){
+      this.$router.push('/userInfo/'+this.userID)
     },
   },
   mounted() {

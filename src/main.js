@@ -7,6 +7,7 @@ import VueRouter from 'vue-router';
 import router from "./router";
 import axios from 'axios';
 import md5 from 'js-md5';
+import './assets/icon/iconfont.css';
 Vue.prototype.$md5 = md5;
 Vue.prototype.$axios = axios;
 Vue.config.productionTip = false
