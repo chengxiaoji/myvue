@@ -4,19 +4,28 @@
     <div class="userInfoMain">
       <el-card shadow="always">
         <el-form status-icon :rules="rules" ref="editInfoForm" :model="editInfo"  class="demo-ruleForm"  label-position="left" label-width="80px">
-          <el-form-item label="头像" prop="headPortrait" style="height: 200px">
-            <v-avatar size="136" style="margin-left: 100px; position: relative" >
-              <img  :class="avatarClass" :src="editInfo.headPortrait" alt="未填写" @click="upLoadAvatar" @mouseenter="avatarClass='hover_avatar'"  @mouseleave="avatarClass='avatar'">
-              <span class="avatar_span" v-show="avatarClass==='hover_avatar'" @click="upLoadAvatar" @mouseenter="avatarClass='hover_avatar'">上传头像</span>
-              <el-input class="avatarInput" type="file" @mouseenter.native="avatarClass='hover_avatar'"></el-input>
+          <el-form-item label="头像" prop="headPortrait" >
+            <v-avatar size="100" >
+              <img  :class="avatarClass" :src="editInfo.headPortrait" alt="未填写" >
             </v-avatar>
+            <el-upload
+                v-if="editInfo.isOwner"
+                class="avatarUploader"
+                drag
+                action="http://forum.chengxiaoji.cn/Forum_api/uploadAvatar.php"
+                :before-upload="beforeAvatarUpload"
+                multiple>
+              <i class="el-icon-upload"></i>
+              <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
+              <div class="el-upload__tip" slot="tip">只能上传jpeg、jpg、png、gif、webp文件，且不超过500kb</div>
+            </el-upload>
           </el-form-item>
           <el-form-item label="昵称" prop="nickname">
-            <el-input v-if="editInfo.isOwner" v-model="editInfo.nickname" style="width: 200px;height: 50px"></el-input>
+            <el-input v-if="editInfo.isOwner" v-model="editInfo.nickname" style="width: 200px;"></el-input>
             <el-link  v-else :underline="false" type="info">{{ editInfo.nickname }}</el-link>
           </el-form-item>
           <el-form-item label="简介" prop="introduction">
-            <el-input v-if="editInfo.isOwner" type="textarea" v-model="editInfo.introduction" :rows="6" style="width: 400px"></el-input>
+            <el-input v-if="editInfo.isOwner" type="textarea" v-model="editInfo.introduction" :rows="8"></el-input>
             <el-link v-else :underline="false" type="info">{{ editInfo.introduction }}</el-link>
           </el-form-item>
           <el-form-item label="性别" prop="gender">
@@ -123,12 +132,15 @@ export default {
         userID: this.$route.params.id
       })
           .then(res => {
-            console.log(res.data)
             this.editInfo = res.data
           })
     },
-    upLoadAvatar(){
-      console.log(1)
+    beforeAvatarUpload(file){
+      const fileSize = file.size / 1024  <= 500  //1MB
+      if (!fileSize) {
+        this.$message.error('上传头像图片大小不能超过 500KB!')
+      }
+      return fileSize
     }
   },
   mounted() {
@@ -140,7 +152,7 @@ export default {
 
 <style scoped>
 .userInfoMain {
-  height: 100vh;
+  /*height: 100vh;*/
   width: 50vw;
   margin: 30px auto;
   min-width: 750px;
@@ -151,34 +163,8 @@ export default {
   width: 100%;
   height: 100%;
 }
-.avatar{
-  opacity: 1;
-  cursor: pointer;
+/deep/ .avatarUploader .el-upload-dragger{
+  display: inline-block;
+  margin-top: 30px;
 }
-.hover_avatar{
-  filter:brightness(50%);
-  cursor: pointer;
-}
-.avatar_span{
-  position: absolute;
-  color: aliceblue;
-  cursor: pointer;
-}
-.avatarInput{
-  position: absolute;
-  opacity:0;
-  filter:alpha(opacity=0);
-  height: 100px;
-  width: 100px;
-  cursor: pointer;
-  z-index: 9;
-}
-.el-card[data-v-43004aba]{
-  padding:50px;
-}
-/*/deep/ .el-input__inner{*/
-/*  height: 100px;*/
-/*  width: 100px;*/
-/*}*/
-/*.el-input__inner*/
 </style>
