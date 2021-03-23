@@ -1,33 +1,3 @@
-Skip to content
-Search or jump to…
-
-Pull requests
-Issues
-Marketplace
-Explore
-
-@chengxiaoji
-shaobaitao
-/
-VueForum
-1
-00
-Code
-Issues
-Pull requests
-Actions
-Projects
-Wiki
-Security
-Insights
-VueForum/src/components/MainForum.vue
-@shaobaitao
-shaobaitao myvue 2.8
-Latest commit 3a5c182 1 hour ago
-History
-1 contributor
-135 lines (112 sloc)  2.91 KB
-
 <template>
   <div class="mainForum">
     <el-row>
@@ -45,9 +15,9 @@ History
           <el-card class="box-card">
             <div slot="header" class="clearfix">
               <span>热门帖子</span>
-              <el-button style="float: right; padding: 3px 0" type="text">查看全部</el-button>
+              <el-button style="float: right; padding: 3px 0" type="text" @click="toPost">查看全部</el-button>
             </div>
-            <ForumWindow></ForumWindow>
+            <ForumWindow  :data="hotItemInfo"></ForumWindow>
           </el-card>
         </div>
 
@@ -55,9 +25,9 @@ History
           <el-card class="box-card">
             <div slot="header" class="clearfix">
               <span>最新帖子</span>
-              <el-button style="float: right; padding: 3px 0" type="text">查看全部</el-button>
+              <el-button style="float: right; padding: 3px 0" type="text" @click="toPost">查看全部</el-button>
             </div>
-            <ForumWindow></ForumWindow>
+            <ForumWindow :data="newItemInfo"></ForumWindow>
           </el-card>
         </div>
       </el-col>
@@ -96,9 +66,41 @@ History
 </template>
 
 <script>
+import api from "@/request/api";
 import ForumWindow from "@/components/ForumWindow";
 export default {
   name: "MainForum",
+  data(){
+    return{
+      newItemInfo: [],
+      hotItemInfo: [],
+    }
+  },
+  methods:{
+    toPost(){
+      this.$router.push('/posts')
+    },
+    getNewPostInfo(num,type){
+      api.getPostInfo({
+        num:num,
+        type:type
+      }).then(res => {
+        this.newItemInfo=res.data
+      })
+    },
+    getHotPostInfo(num,type){
+      api.getPostInfo({
+        num:num,
+        type:type
+      }).then(res => {
+        this.hotItemInfo=res.data
+      })
+    }
+  },
+  mounted() {
+    this.getNewPostInfo(5,'new')
+    this.getHotPostInfo(5,'hot')
+  },
   components:{
     ForumWindow,
   }
@@ -149,15 +151,3 @@ export default {
   padding: 0;
 }
 </style>
-© 2021 GitHub, Inc.
-Terms
-Privacy
-Security
-Status
-Docs
-Contact GitHub
-Pricing
-API
-Training
-Blog
-About

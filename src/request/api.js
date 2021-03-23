@@ -18,7 +18,10 @@ const api = {
     },
     logOut(data){
         return axios.post('Forum_api/log_out.php', data).then(res => res)
-    }
+    },
+    getPostInfo(data) {
+        return axios.post('Forum_api/getPostInfo.php', data).then(res => res)
+    },
 }
 
 export default api;
