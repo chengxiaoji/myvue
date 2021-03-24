@@ -22,6 +22,9 @@ const api = {
     getPostInfo(data) {
         return axios.post('Forum_api/getPostInfo.php', data).then(res => res)
     },
+    getPostCount(data) {
+        return axios.post('Forum_api/getPostCount.php', data).then(res => res)
+    },
 }
 
 export default api;

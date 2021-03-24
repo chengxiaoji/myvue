@@ -4,6 +4,14 @@
         v-model="selectedItem"
         color="primary"
     >
+      <v-skeleton-loader
+          v-for="(item, i) in size"
+          :key="i"
+          v-bind="attrs"
+          type="list-item-avatar-three-line"
+          v-show="data.length===0"
+
+      ></v-skeleton-loader>
       <v-list-item
           v-for="(item, i) in data"
           :key="i"
@@ -38,6 +46,12 @@ export default {
   name: "ForumWindow",
   data() {
     return {
+      attrs: {
+        class: 'mb-auto',
+        boilerplate: true,
+        elevation: 2,
+        height:86
+      },
       selectedItem: 1,
       items: [
         {text: '算法案例1.特殊回文数问题描述：左边往右边看，右边往左算法案例1.特殊回文数问题描述：左边往右边看，右边往左', icon: 'mdi-clock'},
@@ -86,11 +100,12 @@ export default {
       ]
     }
   },
-  props:['data']
+  props:['data','size']
 }
 </script>
 
 <style scoped>
+
 /deep/ .v-list-item{
   height: 84px;
 }

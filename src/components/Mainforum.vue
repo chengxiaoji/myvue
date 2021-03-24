@@ -11,23 +11,23 @@
           </el-carousel>
         </div>
 
-        <div class="forumItem" >
+        <div class="forumItem">
           <el-card class="box-card">
             <div slot="header" class="clearfix">
               <span>热门帖子</span>
               <el-button style="float: right; padding: 3px 0" type="text" @click="toPost">查看全部</el-button>
             </div>
-            <ForumWindow  :data="hotItemInfo"></ForumWindow>
+            <ForumWindow :data="hotItemInfo" :size="5"></ForumWindow>
           </el-card>
         </div>
 
-        <div class="forumItem" >
+        <div class="forumItem">
           <el-card class="box-card">
             <div slot="header" class="clearfix">
               <span>最新帖子</span>
-              <el-button style="float: right; padding: 3px 0" type="text" @click="toPost">查看全部</el-button>
+              <el-button style="float: right; padding: 3px 0" type="text">查看全部</el-button>
             </div>
-            <ForumWindow :data="newItemInfo"></ForumWindow>
+            <ForumWindow :data="newItemInfo" :size="5"></ForumWindow>
           </el-card>
         </div>
       </el-col>
@@ -70,38 +70,40 @@ import api from "@/request/api";
 import ForumWindow from "@/components/ForumWindow";
 export default {
   name: "MainForum",
-  data(){
-    return{
+  data() {
+    return {
       newItemInfo: [],
       hotItemInfo: [],
     }
   },
-  methods:{
-    toPost(){
-      this.$router.push('/posts')
+  methods: {
+    toPost() {
+      this.$router.push('/post')
     },
-    getNewPostInfo(num,type){
+    getNewPostInfo(startIndex, num, type) {
       api.getPostInfo({
-        num:num,
-        type:type
+        startIndex: startIndex,
+        num: num,
+        type: type
       }).then(res => {
-        this.newItemInfo=res.data
+        this.newItemInfo = res.data
       })
     },
-    getHotPostInfo(num,type){
+    getHotPostInfo(startIndex, num, type) {
       api.getPostInfo({
-        num:num,
-        type:type
+        startIndex: startIndex,
+        num: num,
+        type: type
       }).then(res => {
-        this.hotItemInfo=res.data
+        this.hotItemInfo = res.data
       })
     }
   },
   mounted() {
-    this.getNewPostInfo(5,'new')
-    this.getHotPostInfo(5,'hot')
+    this.getNewPostInfo(0, 5, 'new')
+    this.getHotPostInfo(0, 5, 'hot')
   },
-  components:{
+  components: {
     ForumWindow,
   }
 }
@@ -147,7 +149,7 @@ export default {
   width: 100%;
   height: 100%;
 }
-/deep/ .el-card__body{
+/deep/ .el-card__body {
   padding: 0;
 }
 </style>
